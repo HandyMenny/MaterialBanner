@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion setup.compileSdk
-    buildToolsVersion setup.buildTools
     defaultConfig {
         applicationId "com.sergivonavi.materialbanner.app"
         minSdkVersion setup.minSdk
@@ -20,16 +19,16 @@ android {
 
         }
     }
-    lintOptions {
+    lint {
         abortOnError false
     }
 }
 
 dependencies {
     implementation project(':library')
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation "com.google.android.material:material:${versions.material}"
     implementation 'com.squareup.picasso:picasso:2.71828'
 }

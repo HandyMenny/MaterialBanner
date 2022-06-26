@@ -15,25 +15,23 @@ buildscript {
         ]
 
         versions = [
-                androidX_core: '1.0.1',
-                material: '1.1.0-alpha05'
+                androidX_core: '1.8.0',
+                material: '1.6.1'
         ]
     }
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.0'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.android.tools.build:gradle:7.2.1'
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
