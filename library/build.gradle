@@ -1,5 +1,28 @@
 apply plugin: 'com.android.library'
 
+buildscript {
+    ext {
+        release = [
+                versionCode   : 3,
+                versionName   : "1.2.0",
+                appVersionCode: 3,
+                appVersionName: "1.1.1"
+        ]
+
+        setup = [
+                buildTools: "30.0.2",
+                compileSdk: 32,
+                minSdk    : 14,
+                targetSdk : 32
+        ]
+
+        versions = [
+                androidX_core: '1.8.0',
+                material     : '1.6.1'
+        ]
+    }
+}
+
 android {
     compileSdkVersion setup.compileSdk
     defaultConfig {
