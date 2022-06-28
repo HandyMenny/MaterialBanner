@@ -117,9 +117,9 @@ public class Banner extends ViewGroup implements BannerInterface {
     private View mLine;
 
     private Drawable mIcon;
-    private String mMessageText;
-    private String mLeftButtonText;
-    private String mRightButtonText;
+    private CharSequence mMessageText;
+    private CharSequence mLeftButtonText;
+    private CharSequence mRightButtonText;
 
     private int mContainerPaddingTopOneLine;
     private int mContainerPaddingTopMultiline;
@@ -516,7 +516,7 @@ public class Banner extends ViewGroup implements BannerInterface {
      *
      * @param text The text to display in the banner
      */
-    public void setMessage(String text) {
+    public void setMessage(CharSequence text) {
         mMessageText = text;
         mMessageView.setText(text);
     }
@@ -540,7 +540,7 @@ public class Banner extends ViewGroup implements BannerInterface {
      * @param listener The {@link BannerInterface.OnClickListener} to use
      * @see #setLeftButton(int, BannerInterface.OnClickListener)
      */
-    public void setLeftButton(String text, @Nullable BannerInterface.OnClickListener listener) {
+    public void setLeftButton(CharSequence text, @Nullable BannerInterface.OnClickListener listener) {
         mLeftButtonText = text;
         if (mLeftButtonText != null) {
             mLeftButton.setVisibility(VISIBLE);
@@ -559,7 +559,7 @@ public class Banner extends ViewGroup implements BannerInterface {
      *
      * @param textId   The resource id of the text to display in the left button
      * @param listener The {@link BannerInterface.OnClickListener} to use
-     * @see #setLeftButton(String, BannerInterface.OnClickListener)
+     * @see #setLeftButton(CharSequence, BannerInterface.OnClickListener)
      */
     public void setLeftButton(@StringRes int textId,
                               @Nullable BannerInterface.OnClickListener listener) {
@@ -596,7 +596,7 @@ public class Banner extends ViewGroup implements BannerInterface {
      * @param listener The {@link BannerInterface.OnClickListener} to use
      * @see #setRightButton(int, BannerInterface.OnClickListener)
      */
-    public void setRightButton(String text, @Nullable BannerInterface.OnClickListener listener) {
+    public void setRightButton(CharSequence text, @Nullable BannerInterface.OnClickListener listener) {
         mRightButtonText = text;
         if (mRightButtonText != null) {
             mRightButton.setVisibility(VISIBLE);
@@ -615,7 +615,7 @@ public class Banner extends ViewGroup implements BannerInterface {
      *
      * @param textId   The resource id of the text to display in the right button
      * @param listener The {@link BannerInterface.OnClickListener} to use
-     * @see #setRightButton(String, BannerInterface.OnClickListener)
+     * @see #setRightButton(CharSequence, BannerInterface.OnClickListener)
      */
     public void setRightButton(@StringRes int textId,
                                @Nullable BannerInterface.OnClickListener listener) {
@@ -1084,9 +1084,9 @@ public class Banner extends ViewGroup implements BannerInterface {
         @IdRes
         private int mId;
         private Drawable mIcon;
-        private String mMessageText;
-        private String mLeftBtnText;
-        private String mRightBtnText;
+        private CharSequence mMessageText;
+        private CharSequence mLeftBtnText;
+        private CharSequence mRightBtnText;
 
         private BannerInterface.OnClickListener mLeftBtnListener;
         private BannerInterface.OnClickListener mRightBtnListener;
@@ -1214,7 +1214,7 @@ public class Banner extends ViewGroup implements BannerInterface {
          *
          * @return the {@link Builder} object to chain calls
          */
-        public Builder setMessage(@NonNull String text) {
+        public Builder setMessage(@NonNull CharSequence text) {
             mMessageText = text;
             return this;
         }
@@ -1245,7 +1245,7 @@ public class Banner extends ViewGroup implements BannerInterface {
          * @param listener The {@link BannerInterface.OnClickListener} to use
          * @return the {@link Builder} object to chain calls
          */
-        public Builder setLeftButton(@NonNull String text,
+        public Builder setLeftButton(@NonNull CharSequence text,
                                      @Nullable BannerInterface.OnClickListener listener) {
             mLeftBtnText = text;
             mLeftBtnListener = listener;
@@ -1278,7 +1278,7 @@ public class Banner extends ViewGroup implements BannerInterface {
          * @param listener The {@link BannerInterface.OnClickListener} to use
          * @return the {@link Builder} object to chain calls
          */
-        public Builder setRightButton(@NonNull String text,
+        public Builder setRightButton(@NonNull CharSequence text,
                                       @Nullable BannerInterface.OnClickListener listener) {
             mRightBtnText = text;
             mRightBtnListener = listener;
