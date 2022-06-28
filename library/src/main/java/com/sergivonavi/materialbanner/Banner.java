@@ -854,25 +854,31 @@ public class Banner extends ViewGroup implements BannerInterface {
         measure(widthSpec, heightSpec);
 
         final int fromY = -getMeasuredHeight();
-        final MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
-        mMarginBottom = layoutParams.bottomMargin;
 
         // Animate the banner
         ObjectAnimator bannerAnimator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y, fromY, 0);
-        // Animate the banner's bottom margin to move other views
-        layoutParams.bottomMargin = fromY;
-        ValueAnimator marginAnimator = ValueAnimator.ofInt(layoutParams.bottomMargin,
-                mMarginBottom);
-        marginAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                layoutParams.bottomMargin = (Integer) valueAnimator.getAnimatedValue();
-                requestLayout();
-            }
-        });
-
         final AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(bannerAnimator, marginAnimator);
+
+        if (getLayoutParams() instanceof MarginLayoutParams) {
+            final MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
+            mMarginBottom = layoutParams.bottomMargin;
+
+            // Animate the banner's bottom margin to move other views
+            layoutParams.bottomMargin = fromY;
+            ValueAnimator marginAnimator = ValueAnimator.ofInt(layoutParams.bottomMargin,
+                    mMarginBottom);
+            marginAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    layoutParams.bottomMargin = (Integer) valueAnimator.getAnimatedValue();
+                    requestLayout();
+                }
+            });
+            animatorSet.playTogether(bannerAnimator, marginAnimator);
+        } else {
+            animatorSet.play(bannerAnimator);
+        }
+
         animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
         animatorSet.setStartDelay(delay);
         animatorSet.setDuration(ANIM_DURATION_SHOW);
@@ -908,23 +914,29 @@ public class Banner extends ViewGroup implements BannerInterface {
     @Override
     public void dismiss(long delay) {
         final int toY = -getMeasuredHeight();
-        final MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
-        mMarginBottom = layoutParams.bottomMargin;
 
         // Animate the banner
         ObjectAnimator bannerAnimator = ObjectAnimator.ofFloat(this, View.TRANSLATION_Y, 0, toY);
-        // Animate the banner's bottom margin to move other views
-        ValueAnimator marginAnimator = ValueAnimator.ofInt(layoutParams.bottomMargin, toY);
-        marginAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                layoutParams.bottomMargin = (Integer) valueAnimator.getAnimatedValue();
-                requestLayout();
-            }
-        });
-
         final AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(bannerAnimator, marginAnimator);
+
+        if (getLayoutParams() instanceof MarginLayoutParams) {
+            final MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
+            mMarginBottom = layoutParams.bottomMargin;
+
+            // Animate the banner's bottom margin to move other views
+            ValueAnimator marginAnimator = ValueAnimator.ofInt(layoutParams.bottomMargin, toY);
+            marginAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    layoutParams.bottomMargin = (Integer) valueAnimator.getAnimatedValue();
+                    requestLayout();
+                }
+            });
+            animatorSet.playTogether(bannerAnimator, marginAnimator);
+        } else {
+            animatorSet.play(bannerAnimator);
+        }
+
         animatorSet.setInterpolator(new AccelerateDecelerateInterpolator());
         animatorSet.setStartDelay(delay);
         animatorSet.setDuration(ANIM_DURATION_DISMISS);
@@ -954,9 +966,11 @@ public class Banner extends ViewGroup implements BannerInterface {
                 setVisibility(GONE);
 
                 // Reset to default
-                MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
-                layoutParams.bottomMargin = mMarginBottom;
-                setLayoutParams(layoutParams);
+                if (getLayoutParams() instanceof  MarginLayoutParams) {
+                    MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
+                    layoutParams.bottomMargin = mMarginBottom;
+                    setLayoutParams(layoutParams);
+                }
             }
 
             if (isShown()) {
