@@ -78,8 +78,8 @@ class Banner @JvmOverloads constructor(
     private lateinit var mLine: View
     private var mIcon: Drawable? = null
     private var mMessageText: CharSequence? = null
-    private var mLeftButtonText: String? = null
-    private var mRightButtonText: String? = null
+    private var mLeftButtonText: CharSequence? = null
+    private var mRightButtonText: CharSequence? = null
     private var mContainerPaddingTopOneLine = 0
     private var mContainerPaddingTopMultiline = 0
     private var mIconSize = 0
@@ -490,7 +490,7 @@ class Banner @JvmOverloads constructor(
      * @param text     The text to display in the left button
      * @param listener The [BannerInterface.OnClickListener] to use
      */
-    fun setLeftButton(text: String?, listener: BannerInterface.OnClickListener?) {
+    fun setLeftButton(text: CharSequence?, listener: BannerInterface.OnClickListener?) {
         mLeftButtonText = text
         if (mLeftButtonText != null) {
             mLeftButton.visibility = VISIBLE
@@ -535,7 +535,7 @@ class Banner @JvmOverloads constructor(
      * @param text     The text to display in the right button
      * @param listener The [BannerInterface.OnClickListener] to use
      */
-    fun setRightButton(text: String?, listener: BannerInterface.OnClickListener?) {
+    fun setRightButton(text: CharSequence?, listener: BannerInterface.OnClickListener?) {
         mRightButtonText = text
         if (mRightButtonText != null) {
             mRightButton.visibility = VISIBLE
@@ -1074,8 +1074,8 @@ class Banner @JvmOverloads constructor(
         private var mId = 0
         private var mIcon: Drawable? = null
         private var mMessageText: CharSequence? = null
-        private var mLeftBtnText: String? = null
-        private var mRightBtnText: String? = null
+        private var mLeftBtnText: CharSequence? = null
+        private var mRightBtnText: CharSequence? = null
         private var mLeftBtnListener: BannerInterface.OnClickListener? = null
         private var mRightBtnListener: BannerInterface.OnClickListener? = null
         private var mOnDismissListener: BannerInterface.OnDismissListener? = null
@@ -1192,7 +1192,7 @@ class Banner @JvmOverloads constructor(
          * @return the [Builder] object to chain calls
          */
         fun setLeftButton(
-            text: String,
+            text: CharSequence,
             listener: BannerInterface.OnClickListener?
         ): Builder {
             mLeftBtnText = text
@@ -1227,7 +1227,7 @@ class Banner @JvmOverloads constructor(
          * @return the [Builder] object to chain calls
          */
         fun setRightButton(
-            text: String,
+            text: CharSequence,
             listener: BannerInterface.OnClickListener?
         ): Builder {
             mRightBtnText = text
