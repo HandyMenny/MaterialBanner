@@ -867,23 +867,28 @@ class Banner @JvmOverloads constructor(
         val heightSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED)
         measure(widthSpec, heightSpec)
         val fromY = -measuredHeight
-        val layoutParams = layoutParams as MarginLayoutParams
-        mMarginBottom = layoutParams.bottomMargin
 
+        val animatorSet = AnimatorSet()
         // Animate the banner
         val bannerAnimator = ObjectAnimator.ofFloat(this, TRANSLATION_Y, fromY.toFloat(), 0f)
-        // Animate the banner's bottom margin to move other views
-        layoutParams.bottomMargin = fromY
-        val marginAnimator = ValueAnimator.ofInt(
-            layoutParams.bottomMargin,
-            mMarginBottom
-        )
-        marginAnimator.addUpdateListener { valueAnimator ->
-            layoutParams.bottomMargin = (valueAnimator.animatedValue as Int)
-            requestLayout()
+
+        val layoutParams = layoutParams as? MarginLayoutParams
+        if (layoutParams != null) {
+            mMarginBottom = layoutParams.bottomMargin
+            // Animate the banner's bottom margin to move other views
+            layoutParams.bottomMargin = fromY
+            val marginAnimator = ValueAnimator.ofInt(
+                layoutParams.bottomMargin,
+                mMarginBottom
+            )
+            marginAnimator.addUpdateListener { valueAnimator ->
+                layoutParams.bottomMargin = (valueAnimator.animatedValue as Int)
+                requestLayout()
+            }
+            animatorSet.playTogether(bannerAnimator, marginAnimator)
+        } else {
+            animatorSet.play(bannerAnimator)
         }
-        val animatorSet = AnimatorSet()
-        animatorSet.playTogether(bannerAnimator, marginAnimator)
         animatorSet.interpolator = AccelerateDecelerateInterpolator()
         animatorSet.startDelay = delay
         animatorSet.duration = ANIM_DURATION_SHOW.toLong()
@@ -906,19 +911,25 @@ class Banner @JvmOverloads constructor(
         mScheduledDismiss = true
 
         val toY = -measuredHeight
-        val layoutParams = layoutParams as MarginLayoutParams
-        mMarginBottom = layoutParams.bottomMargin
 
+        val animatorSet = AnimatorSet()
         // Animate the banner
         val bannerAnimator = ObjectAnimator.ofFloat(this, TRANSLATION_Y, 0f, toY.toFloat())
-        // Animate the banner's bottom margin to move other views
-        val marginAnimator = ValueAnimator.ofInt(layoutParams.bottomMargin, toY)
-        marginAnimator.addUpdateListener { valueAnimator ->
-            layoutParams.bottomMargin = (valueAnimator.animatedValue as Int)
-            requestLayout()
+
+        val layoutParams = layoutParams as? MarginLayoutParams
+        if (layoutParams != null) {
+            mMarginBottom = layoutParams.bottomMargin
+
+            // Animate the banner's bottom margin to move other views
+            val marginAnimator = ValueAnimator.ofInt(layoutParams.bottomMargin, toY)
+            marginAnimator.addUpdateListener { valueAnimator ->
+                layoutParams.bottomMargin = (valueAnimator.animatedValue as Int)
+                requestLayout()
+            }
+            animatorSet.playTogether(bannerAnimator, marginAnimator)
+        } else {
+            animatorSet.play(bannerAnimator)
         }
-        val animatorSet = AnimatorSet()
-        animatorSet.playTogether(bannerAnimator, marginAnimator)
         animatorSet.interpolator = AccelerateDecelerateInterpolator()
         animatorSet.startDelay = delay
         animatorSet.duration = ANIM_DURATION_DISMISS.toLong()
@@ -943,9 +954,11 @@ class Banner @JvmOverloads constructor(
                 visibility = GONE
 
                 // Reset to default
-                val layoutParams = layoutParams as MarginLayoutParams
-                layoutParams.bottomMargin = mMarginBottom
-                setLayoutParams(layoutParams)
+                val layoutParams = layoutParams as? MarginLayoutParams
+                if (layoutParams != null) {
+                    layoutParams.bottomMargin = mMarginBottom
+                    setLayoutParams(layoutParams)
+                }
                 // #7 Fix dismiss animation
                 // setTranslationY(0);
             }
